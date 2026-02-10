@@ -1,0 +1,114 @@
+{
+  "name": "nmap_scan",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        -16
+      ],
+      "id": "513860ce-ba6c-43a9-bb73-a1e94899b29e",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "command": "nmap -sV -T4 scanme.nmap.org"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        -16
+      ],
+      "id": "2b398382-48ae-4b30-a4eb-17560f17418a",
+      "name": "Execute Command"
+    },
+    {
+      "parameters": {
+        "jsCode": "const output=$input.first().json.stdout;\nreturn[\n  {\n    JSON:{\n       output\n    }\n  }\n]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -32,
+        -16
+      ],
+      "id": "4dd1eda8-e3f3-4d23-8b06-51e587b5fd71",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "fromEmail": "ashok892305@gmail.com",
+        "toEmail": "ashok892305@gmail.com",
+        "subject": "daily security scan report",
+        "emailFormat": "text",
+        "text": "=Hello Admin,\n\nHere is today's security scan result:\n\n{{ $node[\"Execute Command\"].json.stdout }}\n\nRegards,\nn8n Security Bot",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        176,
+        -16
+      ],
+      "id": "786ba39b-df6d-43d8-ace4-1d426a603fd5",
+      "name": "Send email",
+      "webhookId": "12611511-37c5-43c9-8b71-9376e0a6f6d7",
+      "credentials": {
+        "smtp": {
+          "id": "kRmZ039FtGQeTrkx",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Command": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6272ca3d-29e3-4f95-84ce-8bfde22b38d3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "353ca5100c8d11616a75347e8618479dcdc2e62affbee2db689d617715d35e51"
+  },
+  "id": "jYw9DiVTfC2iMqeb",
+  "tags": []
+}
