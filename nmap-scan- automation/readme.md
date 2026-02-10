@@ -17,6 +17,16 @@ It automatically:
 - Nmap
 - Gmail SMTP
 
+## 📩 Output
+The scan result is sent to the configured email address automatically.
+
+## 🚀 How to Use
+Import the JSON workflow into n8n
+Install Nmap on your system
+Configure SMTP credentials
+Run the workflow
+
 ## 📌 Example Command
 ```bash
+
 nmap scanme.nmap.org
